@@ -2,9 +2,10 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
 import io
 
 st.set_page_config(page_title="Kruznice – generator bodu", layout="centered")
@@ -74,7 +75,18 @@ def create_pdf():
     img_buffer.seek(0)
     elements.append(Image(img_buffer))
     elements.append(Spacer(1, 12))
-    elements.append(Paragraph("Autor: Eliska Hrda", styles["Normal"]))
+    data = [["x [m]", "y [m]"]] + [[f"{xi:.2f}", f"{yi:.2f}"] for xi, yi in zip(x, y)]
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ("BACKGROUND", (0,0), (-1,0), colors.grey),
+        ("TEXTCOLOR", (0,0), (-1,0), colors.whitesmoke),
+        ("ALIGN", (0,0), (-1,-1), "CENTER"),
+        ("GRID", (0,0), (-1,-1), 0.5, colors.black),
+        ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold")
+    ]))
+    elements.append(table)
+    elements.append(Spacer(1, 12))
+    elements.append(Paragraph("Autor: Eliška Hrdá", styles["Normal"]))
     elements.append(Paragraph("Kontakt: 277870@vutbr.cz", styles["Normal"]))
     doc.build(elements)
     buffer.seek(0)
