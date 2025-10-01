@@ -88,7 +88,7 @@ def create_pdf():
     ]))
     elements.append(table)
     elements.append(Spacer(1, 12))
-    elements.append(Paragraph("Autor: Eliska Hrda", styles["Normal"]))
+    elements.append(Paragraph("Autor: Eliška Hrdá", styles["Normal"]))
     elements.append(Paragraph("Kontakt: 277870@vutbr.cz", styles["Normal"]))
     doc.build(elements)
     buffer.seek(0)
